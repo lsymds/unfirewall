@@ -1,0 +1,45 @@
+{
+  "configuration": {
+    "sources": {
+      "cloudflare": {
+        "type": "cloudflare",
+        "access_token": "abc"
+      },
+      "azure": {
+        "type": "azure",
+        "access_token_id": "abc",
+        "secret_access_token_id": "def",
+        "service": "proxy"
+      },
+      "all_other_ips": {
+        "type": "cidr",
+        "cidrs": ["0.0.0.0/0", "::0/0"]
+      }
+    },
+    "destinations": {
+      "hetzner": {
+        "type": "hetzner",
+        "api_key": ""
+      }
+    }
+  },
+  "rules": [
+    {
+      "action": "allow",
+      "source": "cloudflare",
+      "destination": "hetzner",
+      "port": 443
+    },
+    {
+      "action": "allow",
+      "source": "azure",
+      "destination": "hetzner",
+      "ports": [22, 443, 778]
+    },
+    {
+      "action": "deny",
+      "source": "all_other_ips",
+      "destination": "hetzner"
+    }
+  ]
+}
